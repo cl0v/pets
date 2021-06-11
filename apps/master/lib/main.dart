@@ -1,113 +1,369 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:commons/commons.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'app/widgets/category_screen.dart';
 
-void main() {
-  runApp(MyApp());
+//TODO:adicionar localizacao
+
+//TODO: Adicionar Seletor de categoria
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  bool useEmulator = false;
+  bool firstRun = true;
+
+  if (kDebugMode && useEmulator) {
+    String host = defaultTargetPlatform == TargetPlatform.android
+        ? '10.0.2.2:8080'
+        : 'localhost:8080';
+
+    if (firstRun) {
+      FirebaseFirestore.instance.settings = Settings(
+        host: host,
+        sslEnabled: false,
+      );
+    }
+
+    await FirebaseStorage.instance.useEmulator(host: 'localhost', port: 9199);
+
+    // FirebaseAuth.instance.useEmulator('http://localhost:9099');
+  }
+
+  runApp(Pedigree());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class Pedigree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Pedigree Vendedor',
+      debugShowCheckedModeBanner: false,
+      initialRoute: Routes.Home,
+      routes: routes,
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
+abstract class Routes {
+  static const Home = '/';
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+final routes = <String, WidgetBuilder>{
+  Routes.Home: (context) => StoreListScreen(),
+};
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class StoreBloc {
+  final _r = StoreFirebase();
+
+  get stream => _r.readAll();
+
+  create(Store s) => _r.create(s);
+
+  delete(String id) => _r.delete(id);
+}
+
+class ProductBloc {
+  final String storeId;
+  final _rep = ProductFirebase();
+
+  ProductBloc(this.storeId);
+
+  get stream => _rep.readFromStore(storeId);
+
+  create(PlatformFile img, Product p) => _rep.create(img, p);
+}
+
+class StoreListScreen extends StatefulWidget {
+  const StoreListScreen({Key? key}) : super(key: key);
+
+  @override
+  _StoreListScreenState createState() => _StoreListScreenState();
+}
+
+class _StoreListScreenState extends State<StoreListScreen> {
+  final _bloc = StoreBloc();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Store'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          push(context, CreateStoreScreen());
+        },
+        child: Icon(Icons.add),
+      ),
+      body: StreamBuilder<List<Store>>(
+        stream: _bloc.stream,
+        initialData: [],
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final l = snapshot.data!;
+            return ListView.builder(
+              itemCount: l.length,
+              itemBuilder: (context, i) {
+                return ListTile(
+                  title: Text(l[i].title),
+                  subtitle: Text(l[i].phone),
+                  trailing: Wrap(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          push(
+                              context,
+                              CreateStoreScreen(
+                                store: l[i],
+                              ));
+                        },
+                        icon: Icon(Icons.edit),
+                      )
+                    ],
+                  ),
+                  onTap: () {
+                    push(
+                      context,
+                      StoreScreen(
+                        store: l[i],
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class CreateStoreScreen extends StatefulWidget {
+  final Store? store;
+  const CreateStoreScreen({
+    Key? key,
+    this.store,
+  }) : super(key: key);
+
+  @override
+  _CreateStoreScreenState createState() => _CreateStoreScreenState();
+}
+
+class _CreateStoreScreenState extends State<CreateStoreScreen> {
+  late final _tTitle;
+  late final _tPhone;
+  late final _tInstagram;
+  final _bloc = StoreBloc();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _tTitle = TextEditingController(text: widget.store?.title);
+    _tPhone = TextEditingController(text: widget.store?.phone);
+    _tInstagram = TextEditingController(text: widget.store?.instagram);
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(widget.store?.title ?? 'Create'),
+        actions: [
+          widget.store != null
+              ? IconButton(
+                  onPressed: () {
+                    _bloc.delete(widget.store!.id!);
+                    pop(context);
+                  },
+                  icon: Icon(Icons.delete),
+                )
+              : Container()
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+      body: Column(
+        children: [
+          TextField(
+            decoration: InputDecoration(hintText: 'Title'),
+            controller: _tTitle,
+          ),
+          TextField(
+            decoration: InputDecoration(hintText: 'Phone'),
+            controller: _tPhone,
+          ),
+          TextField(
+            decoration: InputDecoration(hintText: 'Insta'),
+            controller: _tInstagram,
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () {
+          Store s = Store(
+            title: _tTitle.text,
+            instagram: _tInstagram.text,
+            phone: _tPhone.text,
+          );
+          _bloc.create(s);
+          pop(context);
+        },
+        child: Icon(
+          Icons.check,
+        ),
+      ),
+    );
+  }
+}
+
+class StoreScreen extends StatefulWidget {
+  final Store store;
+  const StoreScreen({
+    Key? key,
+    required this.store,
+  }) : super(key: key);
+
+  @override
+  _StoreScreenState createState() => _StoreScreenState();
+}
+
+class _StoreScreenState extends State<StoreScreen> {
+  get _bloc => ProductBloc(widget.store.id!);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.store.title),
+      ),
+      body: StreamBuilder<List<Product>>(
+        stream: _bloc.stream,
+        initialData: [],
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final l = snapshot.data!;
+            return ListView.builder(
+              itemCount: l.length,
+              itemBuilder: (c, i) {
+                final p = l[i];
+                return ListTile(
+                  title: Text(p.title),
+                  subtitle: Text(p.approved.toString()),
+                  onTap: () {
+                    push(
+                        context,
+                        CreateProductScreen(
+                          storeId: widget.store.id!,
+                          product: p,
+                        ));
+                  },
+                );
+              },
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          push(
+              context,
+              PetCategorySectionWidget(
+                storeId: widget.store.id!,
+              ));
+        },
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+    );
+  }
+}
+
+class CreateProductScreen extends StatefulWidget {
+  final String storeId;
+  final Product? product; //TODO: Por enquanto nao edita
+  final CategoriaFilhote? category;
+  const CreateProductScreen({
+    Key? key,
+    required this.storeId,
+    this.product,
+    this.category,
+  }) : super(key: key);
+
+  @override
+  _CreateProductScreenState createState() => _CreateProductScreenState();
+}
+
+class _CreateProductScreenState extends State<CreateProductScreen> {
+  late final _tTitle;
+  get _bloc => ProductBloc(widget.storeId);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _tTitle = TextEditingController(text: widget.product?.title);
+  }
+
+  PlatformFile? img;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Create'),
+      ),
+      body: Column(
+        children: [
+          ImagePickerTileWidget(
+            onChanged: (i) {
+              print('trocando de img agr : $i');
+              img = i;
+            },
+            title: 'Foto',
+          ),
+          TextField(
+            controller: _tTitle,
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Product p = Product(
+            imgUrl: '',
+            storeId: widget.storeId,
+            title: _tTitle.text,
+            category: widget.category!,
+          );
+          _bloc.create(img!, p);
+          pop(context);
+        },
+        child: Icon(
+          Icons.check,
+        ),
+      ),
     );
   }
 }
