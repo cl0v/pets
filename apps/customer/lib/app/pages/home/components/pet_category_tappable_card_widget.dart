@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pedigree/app/models/categoria_model_helper.dart';
+import 'package:customer/app/models/categoria_model_helper.dart';
 
 class PetCategoryTappableCardWidget extends StatelessWidget {
   final CategoriaModelHelper categoria;

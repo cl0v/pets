@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pedigree/app/pages/detalhes/detalhes_screen.dart';
+import 'package:customer/app/pages/detalhes/detalhes_screen.dart';
 import 'package:commons/commons.dart';
 
 import 'components/preco_filhote_card.dart';

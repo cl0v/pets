@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:pedigree/app/models/categoria_model_helper.dart';
 import 'package:commons/commons.dart';
-
-import 'package:pedigree/app/pages/filhotes/filhotes_pricelist_screen.dart';
+import 'package:customer/app/models/categoria_model_helper.dart';
+import 'package:customer/app/pages/filhotes/filhotes_pricelist_screen.dart';
+import 'package:flutter/material.dart';
 
 class CategoriasScreen extends StatelessWidget {
   final CategoriaModelHelper categoria;

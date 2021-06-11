@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pedigree/app/pages/filhotes/product_repository.dart';
-import 'package:pedigree/app/pages/home/components/filhote_home_section.dart';
+import 'package:customer/app/pages/filhotes/product_repository.dart';
+import 'package:customer/app/pages/home/components/filhote_home_section.dart';
 import 'components/home_title_section_widget.dart';
 import 'components/pet_category_section_widget.dart';
 

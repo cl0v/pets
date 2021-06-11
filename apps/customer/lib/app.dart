@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pedigree/app/pages/home/home_screen.dart';
+import 'package:customer/app/pages/home/home_screen.dart';
 
 class MyApp extends StatelessWidget {
   @override

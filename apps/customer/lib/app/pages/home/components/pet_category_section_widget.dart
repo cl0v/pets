@@ -1,7 +1,7 @@
 import 'package:commons/commons.dart';
-import 'package:pedigree/app/models/categoria_model_helper.dart';
+import 'package:customer/app/models/categoria_model_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:pedigree/app/pages/categoria/categorias_screen.dart';
+import 'package:customer/app/pages/categoria/categorias_screen.dart';
 import 'package:dio/dio.dart';
 
 /// Vai botar em gradiente 2*n as categorias existentes na lista mockedCategoryList

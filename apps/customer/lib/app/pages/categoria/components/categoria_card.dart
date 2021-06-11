@@ -1,5 +1,5 @@
+import 'package:customer/app/models/categoria_model_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:pedigree/app/models/categoria_model_helper.dart';
 
 class CategoriaCard extends StatelessWidget {
   final VoidCallback onTap;
