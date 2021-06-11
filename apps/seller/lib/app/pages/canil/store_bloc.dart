@@ -1,5 +1,5 @@
 import 'package:commons/commons.dart';
-import 'package:pedigree_seller/app/pages/canil/store_prefs.dart';
+import 'package:seller/app/pages/canil/store_prefs.dart';
 
 class StoreBloc {
   StoreBloc(this.userId, {this.canil}) {

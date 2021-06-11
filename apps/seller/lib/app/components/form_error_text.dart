@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:pedigree_seller/constants.dart';
+import 'package:seller/constants.dart';
 
 class FormErrorText extends StatelessWidget {
   final String? errorMsg;

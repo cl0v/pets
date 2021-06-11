@@ -1,9 +1,9 @@
 import 'package:commons/commons.dart';
 import 'package:commons/models/product.dart';
 import 'package:flutter/material.dart';
-import 'package:pedigree_seller/app/pages/canil/store_prefs.dart';
-import 'package:pedigree_seller/app/routes/routes.dart';
-import 'package:pedigree_seller/app/widgets/commons.dart';
+import 'package:seller/app/pages/canil/store_prefs.dart';
+import 'package:seller/app/routes/routes.dart';
+import 'package:seller/app/widgets/commons.dart';
 
 import '../../../constants.dart';
 import 'ninhada_bloc.dart';

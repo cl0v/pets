@@ -1,7 +1,7 @@
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
-import 'package:pedigree_seller/app/pages/canil/store_prefs.dart';
-import 'package:pedigree_seller/app/utils/scaffold_common_components.dart';
+import 'package:seller/app/pages/canil/store_prefs.dart';
+import 'package:seller/app/utils/scaffold_common_components.dart';
 
 class CanilInfoScreen extends StatefulWidget {
   @override

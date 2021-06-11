@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pedigree_seller/app/pages/authentication/login/login_screen.dart';
-import 'package:pedigree_seller/app/pages/authentication/splash/splash_screen.dart';
-import 'package:pedigree_seller/app/pages/authentication/register/register_screen.dart';
-import 'package:pedigree_seller/app/pages/canil/create_canil_screen.dart';
-import 'package:pedigree_seller/app/pages/home/canil_profile_screen.dart';
-import 'package:pedigree_seller/app/pages/main_screen.dart';
-import 'package:pedigree_seller/app/pages/ninhada/ninhada_screen.dart';
-import 'package:pedigree_seller/app/pages/ninhada/cadastrar_ninhada_screen.dart';
-import 'package:pedigree_seller/app/pages/perfil/perfil_screen.dart';
+import 'package:seller/app/pages/authentication/login/login_screen.dart';
+import 'package:seller/app/pages/authentication/splash/splash_screen.dart';
+import 'package:seller/app/pages/authentication/register/register_screen.dart';
+import 'package:seller/app/pages/canil/create_canil_screen.dart';
+import 'package:seller/app/pages/home/canil_profile_screen.dart';
+import 'package:seller/app/pages/main_screen.dart';
+import 'package:seller/app/pages/ninhada/ninhada_screen.dart';
+import 'package:seller/app/pages/ninhada/cadastrar_ninhada_screen.dart';
+import 'package:seller/app/pages/perfil/perfil_screen.dart';
 
 abstract class Routes {
   static const Splash = '/'; 

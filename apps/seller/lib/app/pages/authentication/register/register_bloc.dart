@@ -1,5 +1,5 @@
 import 'package:commons/commons.dart';
-import 'package:pedigree_seller/app/pages/authentication/authentication_firestore.dart';
+import 'package:seller/app/pages/authentication/authentication_firestore.dart';
 
 import '../user_model.dart';
 

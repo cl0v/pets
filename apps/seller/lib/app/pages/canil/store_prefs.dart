@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:commons/commons.dart';
-import 'package:pedigree_seller/app/services/shared_local_storage_service.dart';
+import 'package:seller/app/services/shared_local_storage_service.dart';
 
 extension StorePrefs on Store {
   static Future<Store?> get() async {

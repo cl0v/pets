@@ -2,12 +2,12 @@ import 'package:commons/commons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pedigree_seller/app/components/custom_button_widget.dart';
-import 'package:pedigree_seller/app/components/form_error_text.dart';
-import 'package:pedigree_seller/app/components/text_input_field_widget.dart';
-import 'package:pedigree_seller/app/pages/authentication/login/login_bloc.dart';
-import 'package:pedigree_seller/app/routes/routes.dart';
-import 'package:pedigree_seller/constants.dart';
+import 'package:seller/app/components/custom_button_widget.dart';
+import 'package:seller/app/components/form_error_text.dart';
+import 'package:seller/app/components/text_input_field_widget.dart';
+import 'package:seller/app/pages/authentication/login/login_bloc.dart';
+import 'package:seller/app/routes/routes.dart';
+import 'package:seller/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

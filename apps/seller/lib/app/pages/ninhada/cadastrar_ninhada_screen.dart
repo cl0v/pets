@@ -1,20 +1,19 @@
 import 'package:commons/models/product.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:pedigree_seller/app/components/category_screen.dart';
-import 'package:pedigree_seller/app/pages/canil/store_prefs.dart';
-import 'package:pedigree_seller/app/pages/ninhada/ninhada_bloc.dart';
-import 'package:pedigree_seller/app/routes/routes.dart';
-import 'package:pedigree_seller/app/utils/scaffold_common_components.dart';
+import 'package:seller/app/components/category_screen.dart';
+import 'package:seller/app/pages/canil/store_prefs.dart';
+import 'package:seller/app/pages/ninhada/ninhada_bloc.dart';
+import 'package:seller/app/routes/routes.dart';
+import 'package:seller/app/utils/scaffold_common_components.dart';
 import 'package:dio/dio.dart';
-import 'package:pedigree_seller/keys.dart';
 
 import 'package:commons/commons.dart';
 
 //TODO: Remover reprodutor
 
 class _CategoryBloc {
-  final url = configJsonUrl;
+  final url = Configs.configJsonUrl;
   Future<List<CategoriaModelHelper>> future() async {
     Dio()
         .get(

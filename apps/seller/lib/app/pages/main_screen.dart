@@ -1,10 +1,10 @@
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
-import 'package:pedigree_seller/app/pages/authentication/user_model.dart';
-import 'package:pedigree_seller/app/pages/canil/store_bloc.dart';
-import 'package:pedigree_seller/app/pages/ninhada/ninhada_screen.dart';
-import 'package:pedigree_seller/app/pages/perfil/perfil_screen.dart';
-import 'package:pedigree_seller/app/routes/routes.dart';
+import 'package:seller/app/pages/authentication/user_model.dart';
+import 'package:seller/app/pages/canil/store_bloc.dart';
+import 'package:seller/app/pages/ninhada/ninhada_screen.dart';
+import 'package:seller/app/pages/perfil/perfil_screen.dart';
+import 'package:seller/app/routes/routes.dart';
 
 
 class MainScreen extends StatefulWidget {

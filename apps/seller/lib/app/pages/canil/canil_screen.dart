@@ -1,11 +1,11 @@
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
-import 'package:pedigree_seller/app/pages/authentication/user_model.dart';
-import 'package:pedigree_seller/app/pages/canil/store_bloc.dart';
-import 'package:pedigree_seller/app/pages/canil/store_prefs.dart';
-import 'package:pedigree_seller/app/routes/routes.dart';
-import 'package:pedigree_seller/app/utils/app_bar.dart';
-import 'package:pedigree_seller/app/widgets/commons.dart';
+import 'package:seller/app/pages/authentication/user_model.dart';
+import 'package:seller/app/pages/canil/store_bloc.dart';
+import 'package:seller/app/pages/canil/store_prefs.dart';
+import 'package:seller/app/routes/routes.dart';
+import 'package:seller/app/utils/app_bar.dart';
+import 'package:seller/app/widgets/commons.dart';
 
 
 /*
