@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:commons/commons.dart';
-import 'package:seller/app/pages/authentication/user_model.dart';
 import 'package:seller/app/pages/authentication/firebase_authentication_repository.dart';
 //TODO: Testar quando ja existe user com esse email
 //TODO: Implementar tratamento de exception para erros especificos

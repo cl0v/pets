@@ -1,31 +1,11 @@
 import 'package:commons/commons.dart';
-import 'package:customer/app/models/categoria_model_helper.dart';
+import 'package:customer/app/pages/categoria/categoria_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:customer/app/pages/categoria/categorias_screen.dart';
-import 'package:dio/dio.dart';
 
-/// Vai botar em gradiente 2*n as categorias existentes na lista mockedCategoryList
-///
-
-class _CategoryBloc {
-  final url = Configs.configJsonUrl;
-  Future<List<CategoriaModelHelper>> get future async {
-    var response = await Dio().get(url);
-    List<CategoriaModelHelper> list = response.data
-        .map<CategoriaModelHelper>(
-          (v) => CategoriaModelHelper.fromMap(v),
-        )
-        .toList()
-          ..sort((a, b) => a.categoria
-              .toString()
-              .toLowerCase()
-              .compareTo(b.categoria.toString().toLowerCase()));
-    return list;
-  }
-}
 
 class PetCategorySectionWidget extends StatelessWidget {
-  final _bloc = _CategoryBloc();
+  final _bloc = CategoryBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -45,36 +25,40 @@ class PetCategorySectionWidget extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          FutureBuilder<List<CategoriaModelHelper>>(
-              future: _bloc.future,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<CategoriaModelHelper> l = snapshot.data!;
-                  return Column(
-                    children: l.map(
-                      (c) {
-                        return CategoriaCard(
-                          asset: c.img,
-                          color: c.color,
-                          padding:
-                              EdgeInsets.symmetric(vertical: 2, horizontal: 12),
-                          title: c.categoria,
-                          onTap: () {
-                            push(
-                                context,
-                                CategoriasScreen(
-                                  categoria: c,
-                                ));
-                          },
-                        );
-                      },
-                    ).toList(),
-                  );
-                } else
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-              })
+          // FutureBuilder<List<CategoriaModelHelper>>(
+          //     future: _bloc.future,
+          //     builder: (context, snapshot) {
+          //       if (snapshot.hasData) {
+          //         if (snapshot.data != null) {
+          //           List<CategoriaModelHelper> l = snapshot.data!;
+          //           return Column(
+          //             children: l.map(
+          //               (c) {
+          //                 return CategoriaCard(
+          //                   asset: c.img,
+          //                   color: c.color,
+          //                   padding: EdgeInsets.symmetric(
+          //                       vertical: 2, horizontal: 12),
+          //                   title: c.categoria,
+          //                   onTap: () {
+          //                     push(
+          //                         context,
+          //                         CategoriasScreen(
+          //                           categoria: c,
+          //                         ));
+          //                   },
+          //                 );
+          //               },
+          //             ).toList(),
+          //           );
+          //         } else
+          //           return Container();
+          //         // print(snapshot.data);
+          //       } else
+          //         return Center(
+          //           child: CircularProgressIndicator(),
+          //         );
+          //     })
           // ),
         ],
       ),

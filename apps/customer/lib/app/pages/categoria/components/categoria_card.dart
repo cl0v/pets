@@ -1,4 +1,4 @@
-import 'package:customer/app/models/categoria_model_helper.dart';
+import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
 
 class CategoriaCard extends StatelessWidget {

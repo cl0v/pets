@@ -2,7 +2,6 @@ import 'package:commons/commons.dart';
 import 'package:seller/app/pages/authentication/register/register_bloc.dart';
 import 'package:seller/app/components/text_input_field_widget.dart';
 import 'package:seller/app/utils/scaffold_common_components.dart';
-import 'package:seller/app/pages/authentication/user_model.dart';
 import 'package:seller/app/components/custom_button_widget.dart';
 import 'package:seller/app/components/form_error_text.dart';
 import 'package:seller/app/routes/routes.dart';
@@ -74,7 +73,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   String? _validateNome() {
-    //TODO: Implement
     var text = _tNome.text;
     if (text.isEmpty) {
       return "Digite o nome";
@@ -83,7 +81,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   String? _validateContato() {
-    //TODO: Implement
     var text = _tContato.text;
     if (text.isEmpty) {
       return "Digite o telefone";

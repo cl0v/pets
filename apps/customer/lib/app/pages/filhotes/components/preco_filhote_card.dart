@@ -17,10 +17,63 @@ class PrecoFilhoteCard extends StatelessWidget {
 
   final _bloc = FilhoteBloc();
 
+  actionButtons(context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            onPrimary: Colors.green,
+            primary: Colors.green,
+          ),
+          onPressed: () async {
+            String? phone = await _bloc.phone(pet.storeId);
+            if (phone != null) {
+              launch(
+                  'https://api.whatsapp.com/send?phone=$phone&text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20o%20filhote%20que%20vi%20no%20aplicativo');
+            } else {
+              alert(
+                context,
+                'Desculpe, a loja não forneceu nenhum número',
+              );
+            }
+          },
+          child: FaIcon(
+            FontAwesomeIcons.whatsapp,
+            color: Colors.white,
+            size: 24,
+          ),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            onPrimary: Colors.pink,
+            primary: Colors.pink,
+          ),
+          onPressed: () async {
+            var instagram = await _bloc.instagram(pet.storeId);
+            if (instagram != null) {
+              launch('https://www.instagram.com/$instagram');
+            } else {
+              alert(
+                context,
+                'Desculpe, a loja não forneceu nenhum Instagram',
+              );
+            }
+          },
+          child: FaIcon(
+            FontAwesomeIcons.instagram,
+            color: Colors.white,
+            size: 24,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: onTap, //TODO: Descomentar
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -78,56 +131,7 @@ class PrecoFilhoteCard extends StatelessWidget {
                   SizedBox(
                     height: 8,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          onPrimary: Colors.green,
-                          primary: Colors.green,
-                        ),
-                        onPressed: () async {
-                          String? phone = await _bloc.phone(pet.storeId);
-                          if (phone != null) {
-                            launch(
-                                'https://api.whatsapp.com/send?phone=$phone&text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20o%20filhote%20que%20vi%20no%20aplicativo');
-                          } else {
-                            alert(
-                              context,
-                              'Desculpe, a loja não forneceu nenhum número',
-                            );
-                          }
-                        },
-                        child: FaIcon(
-                          FontAwesomeIcons.whatsapp,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          onPrimary: Colors.pink,
-                          primary: Colors.pink,
-                        ),
-                        onPressed: () async {
-                          var instagram = await _bloc.instagram(pet.storeId);
-                          if (instagram != null) {
-                            launch('https://www.instagram.com/$instagram');
-                          } else {
-                            alert(
-                              context,
-                              'Desculpe, a loja não forneceu nenhum Instagram',
-                            );
-                          }
-                        },
-                        child: FaIcon(
-                          FontAwesomeIcons.instagram,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                      ),
-                    ],
-                  )
+
                   // child: Wrap(
                   //   alignment: WrapAlignment.center,
                   //   crossAxisAlignment: WrapCrossAlignment.center,

@@ -1,5 +1,4 @@
 import 'package:commons/commons.dart';
-import 'package:customer/app/models/categoria_model_helper.dart';
 import 'package:customer/app/pages/filhotes/filhotes_pricelist_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,31 +19,45 @@ class CategoriasScreen extends StatelessWidget {
             color: Colors.grey[800],
           ),
         ),
-        leading: BackButton(
-          color: Colors.grey[800],
-        ),
+        // leading: BackButton(
+        //   color: Colors.grey[800],
+        // ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
-          children: categoria.especies
-              .map(
-                (e) => CategoriaCard(
-                    asset: categoria.img,
-                    color: categoria.color,
-                    title: e.nome,
-                    onTap: () {
-                      push(
-                        context,
-                        FilhotesListViewScreen(
-                            categoria: CategoriaFilhote(
-                          category: categoria.categoria,
-                          breed: e.nome,
-                        )),
-                      );
-                    }),
-              )
-              .toList(),
+          children: [
+            CategoriaCard(
+              asset: categoria.img,
+              color: categoria.color,
+              title: 'Todos',
+              onTap: () {
+                push(
+                  context,
+                  FilhotesListViewScreen(categoria: categoria.categoria),
+                );
+              },
+            ),
+            ...categoria.especies
+                .map(
+                  (e) => CategoriaCard(
+                      asset: categoria.img,
+                      color: categoria.color,
+                      title: e.nome,
+                      onTap: () {
+                        final c = Categoria(
+                            category: categoria.categoria, breed: e.nome);
+                        push(
+                          context,
+                          FilhotesListViewScreen(
+                            categoria: categoria.categoria,
+                            especie: e.nome,
+                          ),
+                        );
+                      }),
+                )
+                .toList(),
+          ],
         ),
       ),
     );

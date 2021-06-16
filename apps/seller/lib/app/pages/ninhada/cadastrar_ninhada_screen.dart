@@ -2,60 +2,42 @@ import 'package:commons/models/product.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:seller/app/components/category_screen.dart';
-import 'package:seller/app/pages/canil/store_prefs.dart';
+import 'package:seller/app/pages/canil/store_bloc.dart';
 import 'package:seller/app/pages/ninhada/ninhada_bloc.dart';
 import 'package:seller/app/routes/routes.dart';
 import 'package:seller/app/utils/scaffold_common_components.dart';
-import 'package:dio/dio.dart';
 
 import 'package:commons/commons.dart';
 
-//TODO: Remover reprodutor
+import '../../../constants.dart';
 
 class _CategoryBloc {
-  final url = Configs.configJsonUrl;
-  Future<List<CategoriaModelHelper>> future() async {
-    Dio()
-        .get(
-            "https://firebasestorage.googleapis.com/v0/b/pedigree-app-5cfbe.appspot.com/o/jsons%2Fpt_br%2Fcategorias.json?alt=media&token=33aa2be0-c2d5-4b63-92d9-04dce8d74297")
-        .then((value) => print(value));
-    var response = await Dio().get(url);
-    print(response.data);
-    return response.data
-        .map<CategoriaModelHelper>((v) => CategoriaModelHelper.fromMap(v))
-        .toList();
-  }
+  Future<List<CategoriaModelHelper>> get future async =>
+      CategoryRepository().get();
 }
 
-class CadastrarNinhadaScreen extends StatefulWidget {
+class CreateProductScreen extends StatefulWidget {
+  final Product? product;
+
+  const CreateProductScreen({Key? key, this.product}) : super(key: key);
   @override
-  _CadastrarNinhadaScreenState createState() => _CadastrarNinhadaScreenState();
+  _CreateProductScreenState createState() => _CreateProductScreenState();
 }
 
-class _CadastrarNinhadaScreenState extends State<CadastrarNinhadaScreen> {
-  late final ProductBloc _bloc;
+class _CreateProductScreenState extends State<CreateProductScreen> {
+  late final ProductBloc _bloc = ProductBloc();
   final _CategoryBloc _categoryBloc = _CategoryBloc();
-  late final String storeId;
+  Product? get product => widget.product;
 
-  bool _loadedData = false;
+  late final _tTitulo;
+  Categoria? _categoria;
 
   @override
   void initState() {
     super.initState();
-    StorePrefs.get().then((c) {
-      if (c != null) {
-        storeId = c.id!;
-        _bloc = ProductBloc(c);
-      }
-      setState(() {
-        _loadedData = true;
-      });
-    });
+    _tTitulo = TextEditingController(text: product?.title);
+    _categoria = product?.category;
   }
-
-  final _tTitulo = TextEditingController();
-
-  CategoriaFilhote? _categoria;
 
   @override
   dispose() {
@@ -65,37 +47,45 @@ class _CadastrarNinhadaScreenState extends State<CadastrarNinhadaScreen> {
 
   _setCategory(String categoria, String especie) {
     setState(() {
-      _categoria = CategoriaFilhote(
+      //BUG: Quando troca a categoria pela segunda vez, nao atualiza as opções
+      _categoria = Categoria(
         category: categoria,
         breed: especie,
       );
-
-      //TODO: Quando troca a categoria pela segunda vez, nao atualiza as opções
     });
   }
 
   bool _continue = true;
 
-  //TODO: Fazer as validações
   _onCreatePressed() async {
-    //TODO: Se eu tentar cadastrar sem a foto, pode dar biziu
+    //TODO: Do jeito que ta fica impossivel trocar a foto
     if (_tTitulo.text == '' || _categoria == null)
       return alert(context, 'Por favor preencha todos os campos');
-    if (foto != null && _categoria != null) {
-      Product ninhada = Product(
+    late String storeId;
+    if (product != null) {
+      await _bloc.update(product!.copyWith(
+        title: _tTitulo.text,
+        category: _categoria!,
+      ));
+
+      storeId = product!.storeId;
+    } else {
+      storeId = (await StoreBloc().fetch())!.id;
+      final ninhada = Product(
         title: _tTitulo.text,
         storeId: storeId,
         category: _categoria!,
       );
-
-      await _bloc.create(
-        foto!,
-        ninhada,
-      );
-
-      pop(context);
-    } else
-      alert(context, 'Não foi possivel cadastrar, pois voce nao enviou imagem');
+      if (foto != null) {
+        await _bloc.create(
+          foto!,
+          ninhada,
+        );
+      } else
+        return alert(
+            context, 'Não foi possivel cadastrar, pois voce nao enviou imagem');
+    }
+    return pop(context);
   }
 
   PlatformFile? foto;
@@ -105,80 +95,105 @@ class _CadastrarNinhadaScreenState extends State<CadastrarNinhadaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var bottomNavBar = _loadedData
-        ? StreamBuilder(
-            stream: _bloc.createBtnBloc.stream,
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              return ScaffoldCommonComponents.customBottomAppBar(
-                'Continuar',
-                _continue ? _onCreatePressed : null,
-                context,
-                snapshot.data ?? false,
-              );
-            },
-          )
-        : Container();
-    var appBar = ScaffoldCommonComponents.customAppBar(
-      'Novo',
-      () => pop(context),
+    var bottomNavBar = StreamBuilder(
+      stream: _bloc.createBtnBloc.stream,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        return ScaffoldCommonComponents.customBottomAppBar(
+          'Continuar',
+          _continue ? _onCreatePressed : null,
+          context,
+          snapshot.data ?? false,
+        );
+      },
     );
-    var body = _loadedData
-        ? Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: ListView(
-                children: [
-                  ImagePickerTileWidget(
+    final appBar = AppBar(
+      brightness: Brightness.light,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      centerTitle: true,
+      actions: [
+        product != null
+            ? IconButton(
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.grey[800],
+                ),
+                onPressed: () async {
+                  _bloc.delete(product!);
+                  pop(context);
+                },
+              )
+            : Container(),
+      ],
+      title: Text(
+        'Novo',
+        style: kTitleTextStyle,
+      ),
+      leading: Builder(builder: (BuildContext context) {
+        return IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.grey[800],
+          ),
+          onPressed: () => pop(context),
+        );
+      }),
+    );
+
+    var body = Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: ListView(
+          children: [
+            product == null
+                ? ImagePickerTileWidget(
                     title: 'Foto',
                     onChanged: _onFotoChanged,
+                  )
+                : Text('Ainda não é possivel trocar a foto na edição'),
+            TextFormField(
+              controller: _tTitulo,
+              decoration: InputDecoration(
+                labelText: 'Titulo',
+                hintText: 'Ex: Wooly Red',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                    12,
                   ),
-                  TextFormField(
-                    controller: _tTitulo,
-                    decoration: InputDecoration(
-                      labelText: 'Titulo',
-                      hintText: 'Ex: Wooly Red',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          12,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  FutureBuilder<List<CategoriaModelHelper>>(
-                      future: _categoryBloc.future(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData)
-                          return ListTile(
-                            title: Text(
-                                _categoria?.breed ?? 'Selecione a categoria'),
-                            subtitle: Text('*Selecione a categoria'),
-                            trailing: Icon(Icons.arrow_forward_ios),
-                            onTap: () {
-                              push(
-                                context,
-                                CategorySelectorScreen(
-                                  title: 'Categorias',
-                                  categorias: snapshot.data ?? [],
-                                  especies: null,
-                                  onChanged: _setCategory,
-                                  routeBack: Routes.CadastrarNinhada,
-                                ),
-                              );
-                            },
-                          );
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }),],
+                ),
               ),
             ),
-          )
-        : Center(
-            child: CircularProgressIndicator(),
-          );
+            FutureBuilder<List<CategoriaModelHelper>>(
+                future: _categoryBloc.future,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData)
+                    return ListTile(
+                      title: Text(_categoria?.breed ?? 'Selecione a categoria'),
+                      subtitle: Text('*Selecione a categoria'),
+                      trailing: Icon(Icons.arrow_forward_ios),
+                      onTap: () {
+                        push(
+                          context,
+                          CategorySelectorScreen(
+                            title: 'Categorias',
+                            categorias: snapshot.data ?? [],
+                            especies: null,
+                            onChanged: _setCategory,
+                            routeBack: Routes.CadastrarNinhada,
+                          ),
+                        );
+                      },
+                    );
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }),
+          ],
+        ),
+      ),
+    );
 
     return Scaffold(
       bottomNavigationBar: bottomNavBar,

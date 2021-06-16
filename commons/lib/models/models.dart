@@ -1,3 +1,3 @@
 export 'product.dart';
-export 'user.dart';
+export 'user_model.dart';
 export 'store.dart';

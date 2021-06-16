@@ -4,9 +4,8 @@ import 'package:seller/app/utils/screen_size.dart';
 import 'package:seller/constants.dart';
 
 class ScaffoldCommonComponents {
-  
-  static BottomAppBar customBottomAppBar(
-      String title, VoidCallback? onPressed, BuildContext context, bool? showProgress) {
+  static BottomAppBar customBottomAppBar(String title, VoidCallback? onPressed,
+      BuildContext context, bool? showProgress) {
     Size size = getSize(context);
     return BottomAppBar(
       color: Colors.transparent,
@@ -28,7 +27,7 @@ class ScaffoldCommonComponents {
   }
 
   //Title only
-static AppBar customAppBarWithoutIcons(String title) {
+  static AppBar customAppBarWithoutIcons(String title) {
     return AppBar(
       brightness: Brightness.light,
       backgroundColor: Colors.transparent,
@@ -41,7 +40,6 @@ static AppBar customAppBarWithoutIcons(String title) {
       ),
     );
   }
-
 
 //Drawer
   static AppBar customAppBarWithDrawerAndAction(
@@ -109,6 +107,25 @@ static AppBar customAppBarWithoutIcons(String title) {
     );
   }
 
+  static AppBar newAppBar = AppBar( brightness: Brightness.light,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      centerTitle: true,
+      title: Text(
+        '',
+        style: kTitleTextStyle,
+      ),
+      leading: Builder(builder: (BuildContext context) {
+        return IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.grey[800],
+          ),
+          onPressed: (){},
+        );
+      }),
+    );
+
   static AppBar customAppBar(String title, VoidCallback? onLeadingPressed) {
     return AppBar(
       brightness: Brightness.light,
@@ -131,7 +148,11 @@ static AppBar customAppBarWithoutIcons(String title) {
     );
   }
 
-  static AppBar customAppBarWithBackAndAction(String title, VoidCallback? onBackPressed, IconData actionButtonIcon, VoidCallback onActionButtonPressed) {
+  static AppBar customAppBarWithBackAndAction(
+      String title,
+      VoidCallback? onBackPressed,
+      IconData actionButtonIcon,
+      VoidCallback onActionButtonPressed) {
     return AppBar(
       brightness: Brightness.light,
       backgroundColor: Colors.transparent,
@@ -142,7 +163,7 @@ static AppBar customAppBarWithoutIcons(String title) {
         style: kTitleTextStyle,
       ),
       actions: [
-         Padding(
+        Padding(
           padding: EdgeInsets.only(right: 16),
           child: IconButton(
             icon: Icon(

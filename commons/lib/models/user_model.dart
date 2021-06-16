@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:seller/app/services/shared_local_storage_service.dart';
+import 'package:commons/services/shared_local_storage_service.dart';
 
-//MEU USUARIO NAO PRECISA DA REFERENCIA DO CANIL, BASTA EU USAR MEU UID PARA PESQUISAR NOS CANILS
-//JUNTAR USUARIOS COM SELLERS
 class UserModel {
   static final String _pref = 'user.prefs';
 
@@ -14,8 +12,8 @@ class UserModel {
   static final String pEmail = 'email';
   static final String pContato = 'contato';
 
-  String? id; //TODO: Acredito que isso nao seja necessario
-  String? uid;
+  String id;
+  String uid;
   String nome;
   String email;
   String contato;
@@ -24,8 +22,8 @@ class UserModel {
     required this.nome,
     required this.email,
     required this.contato,
-    this.uid,
-    this.id,
+    this.uid = '',
+    this.id = '',
   });
 
   factory UserModel.fromMap(Map<String, dynamic> json) => UserModel(
@@ -44,8 +42,13 @@ class UserModel {
 
   String toJson() => json.encode(toMap());
 
-  Map<String, dynamic> toMapWithReference() =>
-      {pUid: uid, pNome: nome, pEmail: email, pContato: contato, pId: id};
+  Map<String, dynamic> toMapWithReference() => {
+        pUid: uid,
+        pNome: nome,
+        pEmail: email,
+        pContato: contato,
+        pId: id,
+      };
 
   factory UserModel.fromMapWithReference(Map<String, dynamic> json) =>
       UserModel(
@@ -56,8 +59,7 @@ class UserModel {
         id: json[pId],
       );
 
-  factory UserModel.fromSnap(
-          DocumentSnapshot<Map<String, dynamic>> snapshot) =>
+  factory UserModel.fromSnap(DocumentSnapshot<Map<String, dynamic>> snapshot) =>
       UserModel.fromMap(snapshot.data()!)..id = snapshot.reference.id;
 
   factory UserModel.fromJson(String source) =>
@@ -71,9 +73,9 @@ class UserModel {
       return null;
   }
 
-  save() {
+  Future<void> save() async{
     String json = jsonEncode(toMapWithReference());
-    Prefs.put(_pref, json);
+    await Prefs.put(_pref, json);
   }
 
   static clear() {

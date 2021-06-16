@@ -23,7 +23,7 @@ abstract class Routes {
 
 final routes = <String, WidgetBuilder>{
   Routes.CanilInfo: (context) => CanilInfoScreen(),
-  Routes.CadastrarNinhada: (context) => CadastrarNinhadaScreen(),
+  Routes.CadastrarNinhada: (context) => CreateProductScreen(),
   Routes.Login: (context) => LoginScreen(),
   Routes.Register: (context) => RegisterScreen(),
   Routes.Ninhada: (context) => NinhadasScreen(),

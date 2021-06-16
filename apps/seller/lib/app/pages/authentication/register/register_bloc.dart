@@ -1,7 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:seller/app/pages/authentication/authentication_firestore.dart';
 
-import '../user_model.dart';
 
 class RegisterBloc extends SimpleBloc<bool> {
   Future<bool> register(

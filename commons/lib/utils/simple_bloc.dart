@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
+
 class SimpleBloc<T> {
-  final _controller = StreamController<T>.broadcast();
+  final _controller = BehaviorSubject<T>();
   Stream<T> get stream => _controller.stream;
 
   add(T obj) {
@@ -11,7 +13,9 @@ class SimpleBloc<T> {
   }
 
   subscribe(Stream<T> s) {
-    _controller.addStream(s);
+    if (!_controller.isClosed) {
+      s.listen((v) => add(v));
+    }
   }
 
   addError(Object obj) {
@@ -19,6 +23,7 @@ class SimpleBloc<T> {
       _controller.addError(obj);
     }
   }
+
 
   dispose() {
     _controller.close();

@@ -16,9 +16,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _bloc = LoginBloc();
-  //TODO: Remover text:
-  final _tEmail = TextEditingController(text: 'marcelofv12@hotmail.com');
-  final _tSenha = TextEditingController(text: 'mkillfv12');
+  final _tEmail = TextEditingController();
+  final _tSenha = TextEditingController();
   bool _showError = false;
 
   @override
@@ -139,7 +138,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: RichText(
                   text: TextSpan(
                 text: 'Criar conta',
-                style: kBodyTextStyle.copyWith(
+                style: kBodyTextStyle.copyWith(color: Colors.black,
+                fontWeight: FontWeight.bold,
                     fontSize: 16, decoration: TextDecoration.underline),
                 recognizer: TapGestureRecognizer()..onTap = _onRegisterPressed,
               )),

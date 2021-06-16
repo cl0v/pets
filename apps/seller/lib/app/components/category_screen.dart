@@ -9,38 +9,6 @@ import '../../constants.dart';
 //final url =
 //    'http://localhost:9199/v0/b/pedigree-app-5cfbe.appspot.com/o/jsons%2Fpt_br%2Fcategorias.json?alt=media&token=776ad2d1-1e10-4635-8219-9eb008a7ea54';
 
-class CategoriaModelHelper {
-  late String categoria;
-  late List<EspecieModelHelper> especies;
-
-  CategoriaModelHelper({
-    required this.categoria,
-    required this.especies,
-  });
-
-  CategoriaModelHelper.fromMap(Map<String, dynamic> json) {
-    categoria = json['categoria'];
-    especies = json['especies']
-        .map<EspecieModelHelper>((m) => EspecieModelHelper.fromJson(m))
-        .toList();
-  }
-
-  factory CategoriaModelHelper.fromJson(String source) =>
-      CategoriaModelHelper.fromMap(json.decode(source));
-}
-
-class EspecieModelHelper {
-  late String nome;
-
-  EspecieModelHelper({
-    required this.nome,
-  });
-
-  EspecieModelHelper.fromJson(Map<String, dynamic> json) {
-    nome = json['nome'];
-  }
-}
-
 class CategorySelectorScreen extends StatelessWidget {
   final List<CategoriaModelHelper> categorias;
   final List<EspecieModelHelper>? especies;

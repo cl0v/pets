@@ -1,0 +1,111 @@
+{
+  "version": "0.0.1",
+  "categories": [
+    {
+      "img": "assets/images/cat.png",
+      "categoria": "Gato",
+      "color": 4287679225,
+      "especies": [
+        {
+          "nome": "Persa"
+        },
+        {
+          "nome": "Chaninha"
+        }
+      ]
+    },
+    
+    {
+      "img": "assets/images/dog.png",
+      "categoria": "Cachorro",
+      "color": 4293892762,
+      "especies": [
+        {
+          "nome": "Shih Tzu",
+          "about": "O Shih Tzu é uma raça bastante antiga com um leve toque sagrado em seu histórico. Apesar de ter sido originado no Tibet, ele está mais associado à China, onde eram reverenciados e venerados pela realeza Chinesa como animais de estimação dos palácios durante a Dinastia Ming. O nome Shih Tzu significa “pequeno leão”, em menção aos “leões sagrados chineses” e seu nascimento perdeu-se em meio a antigas lendas."
+        },
+        {
+          "nome": "Yorkshire Terrier",
+          "about": "É uma das raças preferidas das mulheres pelo tamanho – são carregados em bolsas ou no colo por toda parte. Além disso, eles são espertos, ágeis, brincalhões, companheiros, alegres, carinhosos, independentes e costumam encantar a todos."
+        },
+        {
+          "nome": "Labrador",
+          "about": "O Labrador é a raça de cachorro mais vendida e mais popular do mundo há alguns anos. E não é por menos, este animal é brincalhão, obediente, carinhoso, dinâmico e um verdadeiro companheiro. Além disso, os Labradores adoram brincar e possuem energia de sobra para atividades de todo tipo. Eles também tornam-se mais calmos quando idosos e são boas pedidas para lares com famílias grandes, já que gostam crianças. Labradores também são ótimos cães para idosos, assim como cães de terapia."
+        },
+        {
+          "nome": "Pinscher Alemão",
+          "about": "O Pinscher Alemão ou “Deutscher Pinscher” é uma raça canina originada na Alemanha que tem uma aparência muito elegante. O Pinscher parece ser uma versão miniatura do Doberman Pinscher ou uma versão maior do Pinscher Miniatura. No entanto, ele foi a base para ambas as raças, além de ser incluída nas mesmas origens que outras raças como o Rottweiler, Affenpinscher e o Schnauzer (Padrão, Miniatura e Gigante). O Pinscher é uma raça rara com um excelente senso de humor. Além disso, ele é corajoso, sóbrio, tem muita energia, é vivaz, porém bastante dócil e muito versátil. Por isso, ele é muito admirado tanto pela sua beleza quanto pela sua inteligência."
+        },
+        {
+          "nome": "Poodle",
+          "about": "Raça favorita dos brasileiros há anos. A variação mais popular é a Toy e a sua inteligência é a sua característica mais marcante. Além disso, o Poodle tem enorme capacidade de compreensão e obediência. Por isso, são cachorros leais e carinhosos, de temperamento dócil, brincalhões e nadadores. Eles, adoram estar com seus donos e são capazes de se darem bem com todos na família, inclusive crianças e até mesmo gatos."
+        },
+        {
+          "nome": "Maltês",
+          "about": "O Maltês é uma das raças mais populares no Brasil. Ele é uma raça tranquila, calma, dócil, educada e gentil. Além disso, é extremamente companheiro, inteligente, carinhoso, alegre e alerta. O Maltês adora ficar junto aos donos – sempre acompanhando-os dono onde quer que vão. Costuma ser bastante requisitado por ser um cão que se adapta bem à apartamentos. Ou seja, ele é do tipo que se adapta facilmente ao ritmo do lar e ao estilo de vida dos donos."
+        },
+        {
+          "nome": "Pug",
+          "about": "O Pug é um cachorro de porte pequeno, ideal para apartamentos. É muito carinhoso, dócil e de boa índole, principalmente com as crianças. Muito protetor, principalmente, em relação aos seus donos. O Pug é extremamente corajoso, brincalhão, leal, companheiro e adora acompanhar o dono em passeios."
+        },
+        {
+          "nome": "Golden Retriever",
+          "about": "É uma das raças mais inteligentes do mundo – pacientes e dinâmicos com crianças, ternos e carinhosos. Ou seja, um dos cães mais adoráveis que podem existir. "
+        },
+        {
+          "nome": "Buldogue Francês",
+          "about": "O Buldogue Francês é uma raça muito carinhosa, inteligente e sensível. Ele é muito atencioso e paciente com idosos e crianças, adora ficar em família e receber agrados e carinhos. Ele também é muito ativo, brincalhão e engraçado, ele adora fazer palhaçadas.  Muito sensível, dócil e amigo, também interage bem com crianças, adultos e idosos, adorando brincadeiras em que ele é o centro das atenções."
+        },
+        {
+          "nome": "Lulu da Pomerânia",
+          "about": "O Spitz alemão é uma raça oriunda da Alemanha que possui três distintas variedades de tamanho: gigante, padrão e o miniatura, popularmente conhecido como Lulu da Pomerânia. O Lulu ou Spitz Anão, é a versão miniatura do Cão Spitz, o menor membro da família que inclui o Samoieda, Malamute do Alasca, Elkhound norueguês, entre outros."
+        },
+        {
+          "nome": "Rottweiller",
+          "about": "Embora digam que ele tem um temperamento agressivo – inclusive ainda é muito usado como cão de guarda – o Rottweiller é capaz de ser bastante carinhoso e dócil, podendo conviver bem com crianças quando adestrados e socializados da maneira correta. Curiosamente é uma raça muito afetiva e amorosa, sendo que as fêmeas tendem a ser muito mais protetoras."
+        },
+        {
+          "nome": "Buldogue inglês",
+          "about": "O Buldogue Inglês é bastante brincalhão e pouco ativo – se cansa com facilidade e prefere tirar uma soneca a correr e pular. Seu corpo rechonchudo e sua cara de bravo encantam os brasileiros. A sua popularidade deve-se à sua natureza dócil e aparência adorável – sua face achatada e enrugada é simplesmente irresistível."
+        },
+        {
+          "nome": "Lhasa Apso",
+          "about": "O Lhasa Apso é uma raça originária da região chinesa do Tibete, nas isoladas montanhas do Himalaia. Ele foi criado para servir de sentinela no interior dos monastérios Budistas. A sua inteligência, audição aguçada e instinto natural para diferenciar amigos de estranhos eram muito úteis para este papel. Hoje ele é capaz de viver bem em qualquer tipo de lar, inclusive é uma das melhores raças para apartamentos."
+        },
+        {
+          "nome": "Husky Siberiano",
+          "about": "O Husky Siberiano é uma raça canina de porte médio e pelagem densa originária do nordeste da Sibéria, da família dos cães tipo Spitz. É uma raça muito ativa, energética e resiliente, capaz de combinar força, velocidade e resistência. O Husky é um cão amável, aventureiro, alerta, independente, inteligente, um pouco teimoso e obstinado. "
+        },
+        {
+          "nome": "Chow Chow",
+          "about": "O Chow possui um porte médio, imponente e poderoso, de estrutura firme e forte. Ele costuma ser orgulhoso, independente, leal e protetor à sua família apesar de não demonstrar. Apesar de parecer um urso de pelúcia, não gosta muito de ser abraçado. Se for criado com crianças, é capaz de aceitá-las com prazer, mas não é o tipo de cão que tolera abusos. Por isso é melhor que viva com quem saiba tratar bem os animais. É desconfiado de estranhos, mas se tiver sido socializado desde filhote é capaz de tratar a todos com serenidade."
+        },
+        {
+          "nome": "Pastor Alemão",
+          "about": "O Pastor alemão é um dos cães mais inteligentes que existem. É considerado um cão de alto padrão em se tratando de cães de guarda, policiais ou militares. A raça deriva da mistura de pastoreio e cães de fazenda e se originou na Alemanha. O seu temperamento é autoconfiante, leal, dócil e obediente."
+        },
+        {
+          "nome": "Chihuahua",
+          "about": " A raça é dócil e perfeita para quem adora carregar seus animais de estimação onde quer que vá – até dentro da bolsa. No entanto é um cão pouco paciente, bastante territorial e até tímido demais."
+        },
+        {
+          "nome": "Boxer",
+          "about": "Considerada uma das melhores raças para crianças, a paciência infinita do Boxer e o seu caráter nobre o tornam bastante popular. O Boxer é hoje popularmente famoso pelo seu amor e capacidade de dar e receber carinho, especialmente com as crianças. "
+        },
+        {
+          "nome": "Beagle",
+          "about": "O Beagle é um cão adorável, inteligente, de olfato insuperável e uma inesgotável disposição para a brincadeira. Eles são perspicazes cães de caça donos de um temperamento muito alegre."
+        },
+        {
+          "nome": "Border Collie",
+          "about": "Ele é fantástico no pastoreio e excelente protetor, possui uma linda aparência e é extremamente inteligente. Por isso muita gente não consegue resistir à raça que está cada vez mais se popularizando por aqui."
+        },
+        {
+          "nome": "Pit Bull Terrier Americano",
+          "about": "O Pit Bull pode conviver pacificamente com crianças, adultos, idosos e até mesmo com outros cães, basta ser devidamente educado e socializado. Assim como qualquer outro cão pode ser muito dócil e afetuoso com todos. Um comportamento contrário só será possível devido a irresponsabilidade de seu proprietário, já que o próprio padrão da raça deixa claro que em hipótese alguma o Pit Bull deve demonstrar agressividade."
+        }
+  
+      ]
+    }
+  ]
+}

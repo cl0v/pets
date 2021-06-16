@@ -1,60 +1,9 @@
-import 'dart:convert';
-
 import 'package:commons/commons.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
-import '../../main.dart';
-
-
-class CategoriaModelHelper {
-  late String categoria;
-  late List<EspecieModelHelper> especies;
-
-  CategoriaModelHelper({
-    required this.categoria,
-    required this.especies,
-  });
-
-  CategoriaModelHelper.fromMap(Map<String, dynamic> json) {
-    categoria = json['categoria'];
-    especies = json['especies']
-        .map<EspecieModelHelper>((m) => EspecieModelHelper.fromJson(m))
-        .toList();
-  }
-
-  factory CategoriaModelHelper.fromJson(String source) =>
-      CategoriaModelHelper.fromMap(json.decode(source));
-}
-
-class EspecieModelHelper {
-  late String nome;
-
-  EspecieModelHelper({
-    required this.nome,
-  });
-
-  EspecieModelHelper.fromJson(Map<String, dynamic> json) {
-    nome = json['nome'];
-  }
-}
+import 'package:master/app/pages/product_screen.dart';
 
 class _CategoryBloc {
-  final url = Configs.configJsonUrl;
-  Future<List<CategoriaModelHelper>> get future async {
-    var response = await Dio().get(url);
-    List<CategoriaModelHelper> list = response.data.map<CategoriaModelHelper>(
-      (v) {
-        return CategoriaModelHelper.fromMap(v);
-      },
-    ).toList()
-      ..sort((a, b) => a.categoria
-          .toString()
-          .toLowerCase()
-          .compareTo(b.categoria.toString().toLowerCase()));
-    print(list);
-    return list;
-  }
+  Future<List<CategoriaModelHelper>> get future => CategoryRepository().get();
 }
 
 class PetCategorySectionWidget extends StatelessWidget {
@@ -155,7 +104,7 @@ class CategoriasScreen extends StatelessWidget {
                         context,
                         CreateProductScreen(
                             storeId: storeId,
-                            category: CategoriaFilhote(
+                            category: Categoria(
                               category: categoria.categoria,
                               breed: e.nome,
                             )),

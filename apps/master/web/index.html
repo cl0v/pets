@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -26,10 +27,28 @@
   <title>master</title>
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyCdt20gm4uG_-0VjV8EAycjqGHEOX6NKZY",
+      authDomain: "pedigree-app-5cfbe.firebaseapp.com",
+      projectId: "pedigree-app-5cfbe",
+      storageBucket: "pedigree-app-5cfbe.appspot.com",
+      messagingSenderId: "3740610621",
+      appId: "1:3740610621:web:73ca5be42ffe0d1b633a54",
+      measurementId: "G-ZMSGLZW1BE"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
@@ -95,4 +114,5 @@
     }
   </script>
 </body>
+
 </html>

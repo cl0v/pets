@@ -1,29 +1,27 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Product {
-  ///Pretendo colocar relação de cores com quantidade
-//TODO: Substituir tudo por static para ter acesso facilitado e menos erros
   static final String pImgUrl = 'imgUrl';
   static final String pTitle = 'title';
   static final String pCategory = 'category';
   static final String pApproved = 'approved';
   static final String pStoreId = 'storeId';
 
-  String? id; //TODO: Implementar o id(Nao existia antes)
+  String id; //TODO: Implementar o id(Nao existia antes)
   String imgUrl;
   String title;
-  CategoriaFilhote category;
+  Categoria category;
   bool approved;
   String storeId;
-  String? preco; //TODO: implement price
+  String? price; //TODO: implement price
 
   Product({
     this.imgUrl = '',
+    this.id = '',
     required this.title,
     required this.category,
     required this.storeId,
-    this.approved = false,
+    this.approved = true,
   });
 
   Map<String, dynamic> toMap() {
@@ -36,58 +34,55 @@ class Product {
     };
   }
 
+//TODO: Acredito que nao preciso do fromMap
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
       imgUrl: map[pImgUrl] ?? '',
       title: map[pTitle],
-      category: CategoriaFilhote.fromMap(map[pCategory]),
+      category: Categoria.fromMap(map[pCategory]),
       storeId: map[pStoreId],
     );
   }
 
-
-
   factory Product.fromSnap(DocumentSnapshot<Map<String, dynamic>> snap) =>
       Product.fromMap(snap.data()!)..id = snap.reference.id;
 
+  @override
+  String toString() {
+    return 'Product(id: $id, imgUrl: $imgUrl, title: $title, category: $category, approved: $approved, storeId: $storeId, price: $price)';
+  }
 
-}
-
-class CategoriaFilhote {
-  static final String pCategory = 'category';
-  static final String pBreed = 'breed';
-
-  CategoriaFilhote({
-    required this.category,
-    required this.breed,
-  });
-
-  String category;
-  String breed;
-
-  CategoriaFilhote.fromMap(Map<String, dynamic> map)
-      : this(
-          category: map[pCategory],
-          breed: map[pBreed],
-        );
-
-  Map<String, dynamic> toMap() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data[pCategory] = this.category;
-    data[pBreed] = this.breed;
-    return data;
+  Product copyWith({
+    String? id,
+    String? imgUrl,
+    String? title,
+    Categoria? category,
+    bool? approved,
+    String? storeId,
+    String? price,
+  }) {
+    return Product(
+      id: id ?? this.id,
+      imgUrl: imgUrl ?? this.imgUrl,
+      title: title ?? this.title,
+      category: category ?? this.category,
+      approved: approved ?? this.approved,
+      storeId: storeId ?? this.storeId,
+    );
   }
 }
 
 
-
 class Categoria {
+  static final String pCategory = 'category';
+  static final String pBreed = 'breed';
+
   String category;
   String breed;
 
   Categoria({required this.category, required this.breed});
 
-  Categoria.fromJson(Map<String, dynamic> json)
+  Categoria.fromMap(Map<String, dynamic> json)
       : this(
           category: json['category'],
           breed: json['breed'],

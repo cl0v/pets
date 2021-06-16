@@ -9,7 +9,7 @@ class Store {
   static final String pInstagram = 'instagram';
   static final String pUserId = 'userId';
 
-  String? id;
+  String id;
   String title;
   String phone;
   String instagram;
@@ -20,7 +20,7 @@ class Store {
     required this.phone,
     required this.instagram,
      this.userId = '',
-    this.id,
+    this.id = '',
   });
 
   toMap() {
@@ -28,6 +28,7 @@ class Store {
     data[pTitle] = this.title;
     data[pPhone] = this.phone;
     data[pInstagram] = this.instagram;
+    data[pUserId] = this.userId;
     return data;
   }
 
@@ -36,20 +37,10 @@ class Store {
           title: snap.data()![pTitle],
           phone: snap.data()![pPhone],
           instagram: snap.data()![pInstagram],
+          userId: snap.data()![pUserId],
           id: snap.reference.id,
         );
 
-
-  factory Store.fromMap(Map<String, dynamic> map) {
-    return Store(
-      title: map[pTitle],
-      phone: map[pPhone],
-      instagram: map[pInstagram],
-      userId: map[pUserId],
-    );
-  }
-
-//TODO: Passar para o storeprefs (seller)
 
   Map<String, dynamic> toMapWithReference() {
     return {
@@ -71,9 +62,12 @@ class Store {
     );
   }
 
-  String toJson() => json.encode(toMap());
-
   factory Store.fromJson(String source) =>
       Store.fromMapWithReference(json.decode(source));
 
+
+  @override
+  String toString() {
+    return 'Store(id: $id, title: $title, phone: $phone, instagram: $instagram, userId: $userId)';
+  }
 }

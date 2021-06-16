@@ -1,43 +1,42 @@
 import 'package:commons/commons.dart';
 import 'package:seller/app/pages/canil/store_prefs.dart';
+import 'package:seller/app/pages/canil/store_repository.dart';
+import 'package:seller/app/pages/main_screen.dart';
 
 class StoreBloc {
-  StoreBloc(this.userId, {this.canil}) {
-    bloc.add(canil);
+  StoreRepository _repository = StoreRepository();
+
+  Future<UserModel> _fetchUser() => UserBloc().fetch();
+
+  Future<Store?> fetch() async {
+    //TODO: Posso remover a possibilidade de ser nulo
+    //Terei que mudar em alguns lugares, como na main screen mas talvez valha a pena
+    try {
+      final u = await _fetchUser();
+      final userId = u.id;
+      Store? s = await StorePrefs.get();
+      if (s == null) {
+        s = await _repository.read(userId);
+        if (s != null) await s.save();
+      }
+      return s;
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 
-  final String userId;
-  Store? canil;
-
   final createBtnBloc = SimpleBloc<bool>();
-  final bloc = SimpleBloc<Store?>();
-
-  StoreFirebase _respository = StoreFirebase();
 
   Future<Store?> create(Store s) async {
-    //TODO: Receber o model
+    final u = await _fetchUser();
     try {
       createBtnBloc.add(true);
-      s = s
-        ..userId = userId
-        ..save();
-      await _respository.create(s);
+      final store = s..userId = u.id;
+      await store.save();
+      await _repository.create(store);
       createBtnBloc.add(false);
 
       return s;
     } catch (e) {}
-  }
-
-  Future<Store?> get() async {
-    var c = await StorePrefs.get();
-    if (c == null) {
-      c = await _respository.read(userId).first;
-      //Tenho uma stream la, posso bindar
-      if (c != null) {
-        c.save();
-      }
-    }
-    bloc.add(c);
-    return c;
   }
 }

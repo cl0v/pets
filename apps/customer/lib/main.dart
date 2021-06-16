@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'app.dart';
+//TODO: A descricao da especie deve aparecer quando mostrar todos for selecionado
+//TODO: Adicionar as categorias, e deixar que a coisa cresca naturalmente
 
 /* TODO
 >> página de detalhes<<
@@ -13,11 +15,11 @@ import 'app.dart';
 - Está cortando a foto do bicho na página de detalhes
 */
 
-//TODO: Implementar cached image network
+//TODO:Adicionar categorias
+
 
 bool firstRun = false;
 bool useEmulator = false;
-//
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

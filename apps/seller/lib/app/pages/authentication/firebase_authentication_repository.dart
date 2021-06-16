@@ -11,7 +11,6 @@ class FirebaseAuthenticationRepository implements IAuthentication {
           await auth.signInWithEmailAndPassword(email: email, password: senha);
       return user.user!.uid;
     } catch (e, exeption) {
-      print(e);
       throw exeption;
     }
   }
@@ -27,8 +26,9 @@ class FirebaseAuthenticationRepository implements IAuthentication {
       email: email,
       password: senha,
     );
-         //TODO: Futuramente parar de retornar o ID(nao preciso dele nos users)
-    return c.user!
-        .uid;
+    return c.user!.uid;
   }
+
+  @override
+  uid() => auth.currentUser?.uid;
 }

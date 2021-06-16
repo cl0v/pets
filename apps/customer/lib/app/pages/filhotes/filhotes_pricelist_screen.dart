@@ -6,10 +6,13 @@ import 'components/preco_filhote_card.dart';
 import 'filhote_bloc.dart';
 
 class FilhotesListViewScreen extends StatefulWidget {
-  final CategoriaFilhote categoria;
+  final String categoria;
+  final String? especie;
+  //TODO: Adicionar titulo
 
   FilhotesListViewScreen({
     required this.categoria,
+    this.especie,
   });
 
   @override
@@ -22,16 +25,22 @@ class _FilhotesListViewScreenState extends State<FilhotesListViewScreen> {
   @override
   void initState() {
     super.initState();
-    _bloc.byCategoria(
-      widget.categoria,
-    );
+    if (widget.especie != null) {
+      final c = Categoria(
+        category: widget.categoria,
+        breed: widget.especie!,
+      );
+      _bloc.streamByCategory(c);
+    } else {
+      _bloc.streamByCategoryWithoutEspecie(widget.categoria);
+    }
     // filhotesByCategoria
   }
 
   @override
   void dispose() {
-    super.dispose();
     _bloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -39,7 +48,7 @@ class _FilhotesListViewScreenState extends State<FilhotesListViewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.categoria.breed,
+          widget.especie ?? 'Todos',
           style: TextStyle(
             color: Colors.grey[800],
           ),
@@ -54,33 +63,40 @@ class _FilhotesListViewScreenState extends State<FilhotesListViewScreen> {
             stream: _bloc.stream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                List<Product> petList = snapshot.data!;
-                return GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisExtent: 280,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                  ),
-                  children: petList
-                      .map(
-                        (pet) => PrecoFilhoteCard(
-                          pet: pet,
-                          onTap: () {
-                            push(
-                              context,
-                              DetalhesScreen(pet: pet),
-                            );
-                          },
-                        ),
-                      )
-                      .toList(),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+                if (snapshot.data != null) {
+                  List<Product> petList = snapshot.data!;
+                  if (petList.isEmpty)
+                    return Center(
+                      child: Text('Nenhum cadastrado nessa categoria ainda'),
+                    );
+                  return GridView(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisExtent: 280,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                    ),
+                    children: petList
+                        .map(
+                          (pet) => PrecoFilhoteCard(
+                            pet: pet,
+                            onTap: () {
+                              push(
+                                context,
+                                DetalhesScreen(
+                                  pet: pet,
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                        .toList(),
+                  );
+                }
               }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }),
       ),
     );

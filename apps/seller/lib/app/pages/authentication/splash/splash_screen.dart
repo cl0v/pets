@@ -1,6 +1,5 @@
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
-import 'package:seller/app/pages/authentication/user_model.dart';
 import 'package:seller/app/routes/routes.dart';
 
 class SplashScreen extends StatefulWidget {

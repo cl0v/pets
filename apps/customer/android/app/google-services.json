@@ -43,7 +43,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:3740610621:android:cb3d50526ebe1d8c633a54",
+        "mobilesdk_app_id": "1:3740610621:android:a1caf4bec39d4698633a54",
         "android_client_info": {
           "package_name": "com.example.master"
         }
@@ -79,9 +79,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:3740610621:android:5585da105546b058633a54",
+        "mobilesdk_app_id": "1:3740610621:android:b484630d13ad6c5d633a54",
         "android_client_info": {
-          "package_name": "com.example.pedigree_seller"
+          "package_name": "com.pedigree"
         }
       },
       "oauth_client": [

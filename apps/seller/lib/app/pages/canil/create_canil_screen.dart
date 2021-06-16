@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:seller/app/components/custom_button_widget.dart';
 import 'package:seller/app/components/form_error_text.dart';
 import 'package:seller/app/components/text_input_field_widget.dart';
-import 'package:seller/app/pages/authentication/user_model.dart';
 import 'package:seller/app/pages/canil/store_bloc.dart';
 import 'package:seller/app/routes/routes.dart';
 import 'package:seller/app/utils/app_bar.dart';
@@ -19,20 +18,13 @@ class _CreateCanilScreenState extends State<CreateCanilScreen> {
   final _tContato = TextEditingController();
   final _tInstagram = TextEditingController();
 
-  late final StoreBloc _bloc;
-  bool _dataLoaded = false;
+  final StoreBloc _bloc = StoreBloc();
 
   bool _showError = false;
 
   @override
   void initState() {
     super.initState();
-    UserModel.get().then((u) {
-      if (u != null) _bloc = StoreBloc(u.id!);
-      setState(() {
-        _dataLoaded = true;
-      });
-    });
   }
 
   @override
@@ -104,8 +96,7 @@ class _CreateCanilScreenState extends State<CreateCanilScreen> {
       automaticallyImplyLeading: false,
     );
 
-    var bottomButton = _dataLoaded
-        ? BottomAppBar(
+    var bottomButton =  BottomAppBar(
             color: Colors.transparent,
             elevation: 0,
             child: Padding(
@@ -127,8 +118,7 @@ class _CreateCanilScreenState extends State<CreateCanilScreen> {
                 },
               ),
             ),
-          )
-        : Container();
+          );
 
     var body = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),

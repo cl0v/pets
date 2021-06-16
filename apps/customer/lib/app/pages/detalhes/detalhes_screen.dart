@@ -1,9 +1,10 @@
-// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:customer/app/pages/categoria/categoria_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:commons/commons.dart';
 
 import 'package:customer/app/pages/filhotes/filhote_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetalhesScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class DetalhesScreen extends StatefulWidget {
 
 class _DetalhesScreenState extends State<DetalhesScreen> {
   final _bloc = FilhoteBloc();
+  final _cBloc = CategoryBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +39,28 @@ class _DetalhesScreenState extends State<DetalhesScreen> {
         children: [
           _petCoolImage(),
           _petTitleAndPrice(),
-          _featureRow(),
-          Sobre(
-            title: "Sobre",
-            text:
-                "Rottweiler é uma raça de cães molossos desenvolvida na Alemanha. Criada por açougueiros da região de Rottweil para o trabalho com o gado, logo tornou-se um eficiente cão de guarda e boiadeiro, e cão de tração.",
-          ),
-          Sobre(
-            title: "Sobre o Canil",
-            text: "Canil de nestão é so qualidade brow",
-          ),
+          // _featureRow(),
+          FutureBuilder<String>(
+              future: _cBloc.fetchEspecieDescription(widget.pet.category),
+              builder: (c, s) {
+                if (s.hasData) {
+                  if (s.data != null) {
+                    return Sobre(
+                      title: "Sobre",
+                      text: s.data!,
+                    );
+                  }
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }),
+          
+          //TODO: Ver informacoes do canil >> // nao precisa ainda
+          // Sobre(
+          //   title: "Sobre o Canil",
+          //   text: "Canil de nestão é so qualidade brow",
+          // ),
           SizedBox(
             height: 72,
           )
@@ -58,6 +72,55 @@ class _DetalhesScreenState extends State<DetalhesScreen> {
       extendBodyBehindAppBar: true,
       appBar: appBar,
       body: body,
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            heroTag: null,
+            backgroundColor: Colors.pink,
+            child: FaIcon(
+              FontAwesomeIcons.instagram,
+              color: Colors.white,
+              size: 24,
+            ),
+            onPressed: () async {
+              var instagram = await _bloc.instagram(widget.pet.storeId);
+              if (instagram != null) {
+                launch('https://www.instagram.com/$instagram');
+              } else {
+                alert(
+                  context,
+                  'Desculpe, a loja não forneceu nenhum Instagram',
+                );
+              }
+            },
+          ),
+          SizedBox(
+            width: 12,
+          ),
+          FloatingActionButton(
+            heroTag: null,
+            backgroundColor: Colors.green,
+            child: FaIcon(
+              FontAwesomeIcons.whatsapp,
+              color: Colors.white,
+              size: 24,
+            ),
+            onPressed: () async {
+              String? phone = await _bloc.phone(widget.pet.storeId);
+              if (phone != null) {
+                launch(
+                    'https://api.whatsapp.com/send?phone=$phone&text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20o%20filhote%20que%20vi%20no%20aplicativo');
+              } else {
+                alert(
+                  context,
+                  'Desculpe, a loja não forneceu nenhum número',
+                );
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -93,34 +156,17 @@ class _DetalhesScreenState extends State<DetalhesScreen> {
                     fontSize: 24,
                   ),
                 ),
-                Text(
-                  'R\$${widget.pet}',
-                  style: TextStyle(
-                    // color: Colors.grey[00],
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                )
+                // Text(
+                //   'R\$${widget.pet.price != '' ? widget.pet.price : 'não informado'}',
+                //   style: TextStyle(
+                //     // color: Colors.grey[00],
+                //     // fontWeight: FontWeight.bold,
+                //     fontSize: 20,
+                //   ),
+                // )
               ],
             ),
-            FloatingActionButton.extended(
-              heroTag: null,
-              onPressed: () async {
-                var phone = await _bloc.phone(widget.pet.storeId);
-                if (phone != '') {
-                  //"whatsapp://send?phone=$phone";
-                  //https://api.whatsapp.com/send?phone=$phone&text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20o%20filhote%20que%20vi%20no%20aplicativo
-                  // launch("tel://214324234");
-                  launch('https://api.whatsapp.com/send?phone=$phone&text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20o%20filhote%20que%20vi%20no%20aplicativo');
-                } else {
-                  alert(context, 'Desculpe, a loja não forneceu nenhum número');
-                }
-              },
-              label: Text('Negociar'),
-              icon: Icon(
-                Icons.phone,
-              ),
-            )
+
             // favorite(true),
           ],
         ),

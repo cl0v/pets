@@ -1,6 +1,5 @@
 import 'package:commons/commons.dart';
 import 'package:seller/app/utils/scaffold_common_components.dart';
-import 'package:seller/app/pages/authentication/user_model.dart';
 import 'package:seller/app/pages/canil/store_prefs.dart';
 import 'package:seller/app/routes/routes.dart';
 import 'package:flutter/material.dart';
